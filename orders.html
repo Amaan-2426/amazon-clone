@@ -1,0 +1,569 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Orders - Amazon</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #0f1111;
+        }
+
+        /* Main Navbar */
+        .navbar {
+            background-color: #131921;
+            color: white;
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .logo span {
+            color: #ff9900;
+        }
+
+        .search {
+            display: flex;
+            flex: 1;
+            min-width: 200px;
+            max-width: 650px;
+        }
+
+        .search input {
+            width: 100%;
+            padding: 12px;
+            font-size: 15px;
+            border: none;
+            outline: none;
+        }
+
+        .search button {
+            padding: 0 18px;
+            background-color: #febd69;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* Secondary Navbar */
+        .sub-navbar {
+            background-color: #232f3e;
+            padding: 12px 25px;
+            color: white;
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .sub-navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        /* Page Layout */
+        .container {
+            max-width: 1150px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 500;
+            margin-bottom: 22px;
+        }
+
+        /* Orders Navigation */
+        .order-tabs {
+            display: flex;
+            gap: 25px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 25px;
+            overflow-x: auto;
+        }
+
+        .order-tabs a {
+            text-decoration: none;
+            color: #0f1111;
+            padding: 12px 0;
+            white-space: nowrap;
+        }
+
+        .order-tabs .active {
+            border-bottom: 3px solid #e77600;
+            font-weight: bold;
+        }
+
+        /* Search Orders */
+        .order-search {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .order-search input {
+            padding: 11px;
+            border: 1px solid #888;
+            border-radius: 4px;
+            width: 320px;
+            max-width: 100%;
+        }
+
+        .order-search button,
+        .yellow-btn {
+            background-color: #ffd814;
+            border: 1px solid #fcd200;
+            border-radius: 20px;
+            padding: 10px 18px;
+            cursor: pointer;
+            color: #0f1111;
+        }
+
+        /* Order Card */
+        .order-card {
+            border: 1px solid #d5d9d9;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .order-header {
+            background-color: #f0f2f2;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #d5d9d9;
+            font-size: 13px;
+        }
+
+        .header-info {
+            display: flex;
+            gap: 35px;
+            flex-wrap: wrap;
+        }
+
+        .muted {
+            color: #565959;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .order-id {
+            color: #565959;
+        }
+
+        .order-body {
+            padding: 22px 20px;
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+        }
+
+        .product-image {
+            width: 145px;
+            height: 145px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .delivery-status {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .delivered {
+            color: #007600;
+        }
+
+        .product-name {
+            color: #007185;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .order-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-width: 190px;
+        }
+
+        .order-actions button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #adb1b8;
+            background: white;
+            cursor: pointer;
+        }
+
+        .order-actions .primary {
+            background: #ffd814;
+            border-color: #fcd200;
+        }
+
+        .order-actions button:hover,
+        .yellow-btn:hover {
+            filter: brightness(0.96);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            background-color: #232f3e;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        @media (max-width: 650px) {
+            .navbar {
+                padding: 15px;
+            }
+
+            .container {
+                margin-top: 22px;
+                padding: 0 12px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .order-body {
+                flex-direction: column;
+            }
+
+            .order-actions {
+                width: 100%;
+            }
+
+            .header-info {
+                gap: 18px;
+            }
+
+            .product-image {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Main Navbar -->
+    <header class="navbar">
+        <div class="logo">amazon<span>⌣</span></div>
+
+        <a href="#" class="nav-link">
+            Deliver to<br><strong>India</strong>
+        </a>
+
+        <div class="search">
+            <input type="text" placeholder="Search Amazon">
+            <button onclick="alert('Search feature coming soon!')">⌕</button>
+        </div>
+
+        <a href="#" class="nav-link">
+            Hello, sign in<br><strong>Account & Lists</strong>
+        </a>
+
+        <a href="orders.html" class="nav-link">
+            Returns<br><strong>& Orders</strong>
+        </a>
+
+        <a href="#" class="nav-link">
+            🛒 Cart
+        </a>
+    </header>
+
+    <!-- Secondary Navbar -->
+    <nav class="sub-navbar">
+        <a href="#">☰ All</a>
+        <a href="#">Today's Deals</a>
+        <a href="#">Customer Service</a>
+        <a href="#">Registry</a>
+        <a href="#">Gift Cards</a>
+        <a href="#">Sell</a>
+    </nav>
+
+    <!-- Orders Page -->
+    <main class="container">
+
+        <h1 class="page-title">Your Orders</h1>
+
+        <div class="order-tabs">
+            <a href="#" class="active" onclick="showOrders('all', this); return false;">Orders</a>
+            <a href="#" onclick="showOrders('buy-again', this); return false;">Buy Again</a>
+            <a href="#" onclick="showOrders('not-shipped', this); return false;">Not Yet Shipped</a>
+            <a href="#" onclick="showOrders('cancelled', this); return false;">Cancelled Orders</a>
+        </div>
+
+        <p style="margin-bottom: 15px;">
+            <strong>3 orders</strong> placed in
+            <select id="year" onchange="filterYear()"
+                style="padding: 7px; border: 1px solid #888; border-radius: 4px;">
+                <option value="2026">2026</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+            </select>
+        </p>
+
+        <div class="order-search">
+            <input type="text" id="orderSearch"
+                placeholder="Search all orders"
+                oninput="searchOrders()">
+            <button onclick="searchOrders()">Search Orders</button>
+        </div>
+
+        <!-- Order 1 -->
+        <section class="order-card" data-status="delivered" data-year="2026">
+            <div class="order-header">
+                <div class="header-info">
+                    <div>
+                        <p class="muted">ORDER PLACED</p>
+                        <p>12 October 2026</p>
+                    </div>
+                    <div>
+                        <p class="muted">TOTAL</p>
+                        <p>₹1,499.00</p>
+                    </div>
+                    <div>
+                        <p class="muted">SHIP TO</p>
+                        <p>Your Address</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="muted">ORDER # 123-4567890-1234567</p>
+                    <a href="#" onclick="alert('Demo order details'); return false;"
+                       style="color:#007185;">View order details</a>
+                </div>
+            </div>
+
+            <div class="order-body">
+                <img class="product-image"
+                    src="https://placehold.co/200x200/f5f5f5/333?text=Headphones"
+                    alt="Wireless headphones">
+
+                <div class="product-details">
+                    <p class="delivery-status delivered">Delivered 15 October</p>
+                    <p class="product-name">Wireless Bluetooth Headphones with Deep Bass</p>
+                    <p class="muted">Sold by: Example Store</p>
+                    <p class="product-price">₹1,499.00</p>
+                    <button class="yellow-btn"
+                        onclick="alert('Demo: product added to cart')">
+                        Buy it again
+                    </button>
+                </div>
+
+                <div class="order-actions">
+                    <button class="primary" onclick="alert('Demo: return or replace item')">
+                        Return or replace items
+                    </button>
+                    <button onclick="alert('Demo: view item')">View your item</button>
+                    <button onclick="alert('Demo: write a product review')">
+                        Write a product review
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order 2 -->
+        <section class="order-card" data-status="not-shipped" data-year="2026">
+            <div class="order-header">
+                <div class="header-info">
+                    <div>
+                        <p class="muted">ORDER PLACED</p>
+                        <p>14 October 2026</p>
+                    </div>
+                    <div>
+                        <p class="muted">TOTAL</p>
+                        <p>₹799.00</p>
+                    </div>
+                    <div>
+                        <p class="muted">SHIP TO</p>
+                        <p>Your Address</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="muted">ORDER # 234-5678901-2345678</p>
+                    <a href="#" onclick="alert('Demo order details'); return false;"
+                       style="color:#007185;">View order details</a>
+                </div>
+            </div>
+
+            <div class="order-body">
+                <img class="product-image"
+                    src="https://placehold.co/200x200/f5f5f5/333?text=Keyboard"
+                    alt="Keyboard">
+
+                <div class="product-details">
+                    <p class="delivery-status">Arriving soon</p>
+                    <p class="product-name">Compact USB Keyboard for Laptop and PC</p>
+                    <p class="muted">Sold by: Example Store</p>
+                    <p class="product-price">₹799.00</p>
+                    <p>Preparing for dispatch</p>
+                </div>
+
+                <div class="order-actions">
+                    <button class="primary" onclick="alert('Demo: track package')">
+                        Track package
+                    </button>
+                    <button onclick="alert('Demo: cancel order')">Cancel order</button>
+                    <button onclick="alert('Demo: contact seller')">Contact seller</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order 3 -->
+        <section class="order-card" data-status="cancelled" data-year="2026">
+            <div class="order-header">
+                <div class="header-info">
+                    <div>
+                        <p class="muted">ORDER PLACED</p>
+                        <p>5 October 2026</p>
+                    </div>
+                    <div>
+                        <p class="muted">TOTAL</p>
+                        <p>₹499.00</p>
+                    </div>
+                    <div>
+                        <p class="muted">SHIP TO</p>
+                        <p>Your Address</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="muted">ORDER # 345-6789012-3456789</p>
+                    <a href="#" onclick="alert('Demo order details'); return false;"
+                       style="color:#007185;">View order details</a>
+                </div>
+            </div>
+
+            <div class="order-body">
+                <img class="product-image"
+                    src="https://placehold.co/200x200/f5f5f5/333?text=Mouse"
+                    alt="Wireless mouse">
+
+                <div class="product-details">
+                    <p class="delivery-status">Order cancelled</p>
+                    <p class="product-name">Wireless Optical Mouse for Laptop</p>
+                    <p class="muted">Sold by: Example Store</p>
+                    <p class="product-price">₹499.00</p>
+                </div>
+
+                <div class="order-actions">
+                    <button class="primary" onclick="alert('Demo: order again')">
+                        Order again
+                    </button>
+                    <button onclick="alert('Demo: view item')">View your item</button>
+                </div>
+            </div>
+        </section>
+
+        <p id="noResults" style="display:none; padding:20px 0;">
+            No matching orders found.
+        </p>
+
+    </main>
+
+    <footer>
+        <p>Amazon-style demo website</p>
+        <p style="margin-top: 10px;">Back to top ↑</p>
+    </footer>
+
+    <script>
+        let currentStatus = "all";
+
+        function showOrders(status, clickedTab) {
+            currentStatus = status;
+
+            document.querySelectorAll(".order-tabs a").forEach(tab => {
+                tab.classList.remove("active");
+            });
+
+            clickedTab.classList.add("active");
+            searchOrders();
+        }
+
+        function searchOrders() {
+            const query = document.getElementById("orderSearch")
+                .value.toLowerCase();
+
+            const selectedYear = document.getElementById("year").value;
+            const orders = document.querySelectorAll(".order-card");
+            let visibleCount = 0;
+
+            orders.forEach(order => {
+                const matchesText = order.textContent
+                    .toLowerCase().includes(query);
+
+                const matchesStatus =
+                    currentStatus === "all" ||
+                    (currentStatus === "buy-again" &&
+                        order.dataset.status === "delivered") ||
+                    order.dataset.status === currentStatus;
+
+                const matchesYear = order.dataset.year === selectedYear;
+
+                const show = matchesText && matchesStatus && matchesYear;
+
+                order.style.display = show ? "block" : "none";
+
+                if (show) visibleCount++;
+            });
+
+            document.getElementById("noResults").style.display =
+                visibleCount === 0 ? "block" : "none";
+        }
+
+        function filterYear() {
+            searchOrders();
+        }
+    </script>
+
+</body>
+</html>
